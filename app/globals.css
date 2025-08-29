@@ -1,0 +1,98 @@
+/* -------------------------------
+   Tailwind v4 core import
+   ------------------------------- */
+@import "tailwindcss";
+
+/* -------------------------------
+   Theme Tokens
+   ------------------------------- */
+@theme {
+  /* Fonts */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Radii */
+  --radius-md: 0.75rem;
+  --radius-xl: 1.5rem;
+
+  /* Light mode colors */
+  --background: #000000;
+  --foreground: #f9fafb;
+
+  --primary: #10b981; /* green */
+  --primary-foreground: #ffffff;
+
+  --secondary: #8b5cf6; /* purple */
+  --secondary-foreground: #ffffff;
+
+  --accent: #22c55e; /* neon green */
+  --accent-foreground: #000000;
+
+  --muted: #1e1e1e;
+  --muted-foreground: #a1a1aa;
+
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #10b981;
+}
+
+/* Dark mode overrides */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #f9fafb;
+
+  --primary: #8b5cf6; /* purple highlight */
+  --primary-foreground: #ffffff;
+
+  --secondary: #10b981; /* green highlight */
+  --secondary-foreground: #ffffff;
+
+  --accent: #9333ea; /* vivid purple */
+  --accent-foreground: #000000;
+
+  --muted: #1e1e1e;
+  --muted-foreground: #a1a1aa;
+
+  --border: #1f1f1f;
+  --input: #27272a;
+  --ring: #8b5cf6;
+}
+
+/* -------------------------------
+   Base Resets
+   ------------------------------- */
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
+  }
+
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+}
+
+/* -------------------------------
+   Custom Utilities
+   ------------------------------- */
+@layer utilities {
+  .zombie-glow {
+    text-shadow: 0 0 8px #10b981,
+                 0 0 16px #8b5cf6,
+                 0 0 24px #22c55e;
+  }
+
+  .zombie-bg {
+    background: radial-gradient(circle at center, #0f0 0%, #000 100%);
+  }
+
+  .zombie-card {
+    background: linear-gradient(145deg, #111 0%, #1e1e1e 100%);
+    border: 1px solid #10b98133;
+    box-shadow: 0 0 20px #8b5cf633;
+    border-radius: var(--radius-md);
+  }
+}
