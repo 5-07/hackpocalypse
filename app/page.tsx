@@ -1,16 +1,41 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 
-// Fonts
-import { Press_Start_2P, VT323, Orbitron } from "next/font/google";
+function FloatingPixels() {
+  const [positions, setPositions] = useState<
+    { top: string; left: string; icon: string }[]
+  >([]);
 
-const arcade = Press_Start_2P({ weight: "400", subsets: ["latin"] });
-const terminal = VT323({ weight: "400", subsets: ["latin"] });
-const orbitron = Orbitron({ weight: "400", subsets: ["latin"] });
+  useEffect(() => {
+    const icons = ["✦", "➤", "◉"];
+    const newPositions = Array.from({ length: 12 }).map(() => ({
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      icon: icons[Math.floor(Math.random() * icons.length)],
+    }));
+    setPositions(newPositions);
+  }, []);
+
+  return (
+    <>
+      {positions.map((pos, i) => (
+        <motion.div
+          key={i}
+          className="absolute text-green-400 text-lg pointer-events-none"
+          style={{ top: pos.top, left: pos.left }}
+          animate={{ y: ["0%", "-20%", "0%"] }}
+          transition={{ duration: 5, repeat: Infinity }}
+        >
+          {pos.icon}
+        </motion.div>
+      ))}
+    </>
+  );
+}
 
 // Workshops
 const workshops = [
@@ -37,7 +62,7 @@ const workshops = [
   {
     title: "Presentation",
     desc: "Focused on teaching participants how to pitch their projects effectively, covering storytelling, design, and confident delivery.",
-    images: ["/images/IMG_3397jpg.jpg"],
+    images: ["/images/IMG_3397.jpg"], // ✅ fixed filename
   },
 ];
 
@@ -88,37 +113,17 @@ export default function Page() {
 
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-black text-green-400">
-          {/* CRT + Neon Grid Background */}
+      {/* CRT + Neon Grid Background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(0,255,0,0.25)_1px,transparent_1px)] [background-size:20px_20px] animate-pulse opacity-70" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(34,197,94,0.4)_1px,transparent_1px),linear-gradient(to_bottom,rgba(34,197,94,0.4)_1px,transparent_1px)] bg-[size:40px_40px] opacity-60" />
       <div className="pointer-events-none absolute inset-0 mix-blend-overlay opacity-30 bg-[linear-gradient(0deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:100%_4px]" />
 
-
-      {/* Floating Pixel Elements */}
-      {Array.from({ length: 12 }).map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute text-green-400 text-xl"
-          style={{
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
-          }}
-          animate={{ y: [0, -10, 0], opacity: [0.2, 1, 0.2] }}
-          transition={{
-            duration: 4 + Math.random() * 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          {i % 2 === 0 ? "✦" : i % 3 === 0 ? "➤" : "◉"}
-        </motion.div>
-      ))}
+      {/* Floating Elements */}
+      <FloatingPixels />
 
       {/* Navbar */}
       <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-2xl backdrop-blur-xl bg-black/70 border border-green-400/40 shadow-[0_0_15px_rgba(34,197,94,0.4)]">
-        <nav
-          className={`${arcade.className} flex gap-5 sm:gap-8 text-xs sm:text-sm text-green-400 justify-center`}
-        >
+        <nav className="font-arcade flex gap-5 sm:gap-8 text-xs sm:text-sm text-green-400 justify-center">
           <Link href="#workshops">WORKSHOPS</Link>
           <Link href="#projects">PROJECTS</Link>
           <Link href="#winners">WINNERS</Link>
@@ -128,14 +133,10 @@ export default function Page() {
 
       {/* Hero */}
       <section className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center space-y-6 px-4">
-        <h1
-          className={`${arcade.className} text-4xl sm:text-6xl md:text-7xl text-purple-500 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]`}
-        >
+        <h1 className="font-arcade text-4xl sm:text-6xl md:text-7xl text-purple-500 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]">
           HACKPOCALYPSE
         </h1>
-        <p
-          className={`${terminal.className} text-base sm:text-lg md:text-xl text-green-400 max-w-xl leading-relaxed`}
-        >
+        <p className="font-terminal text-base sm:text-lg md:text-xl text-green-400 max-w-xl leading-relaxed">
           <span className="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-green-400 pr-2">
             A 2-day survival hackathon. Code to outpace the swarm.
           </span>
@@ -143,13 +144,8 @@ export default function Page() {
       </section>
 
       {/* Workshops */}
-      <section
-        id="workshops"
-        className="relative z-10 py-24 px-6 max-w-6xl mx-auto text-center"
-      >
-        <h2
-          className={`${orbitron.className} text-3xl sm:text-4xl text-purple-400 mb-8`}
-        >
+      <section id="workshops" className="relative z-10 py-24 px-6 max-w-6xl mx-auto text-center">
+        <h2 className="font-orbitron text-3xl sm:text-4xl text-purple-400 mb-8">
           Workshops
         </h2>
         <p className="text-green-300 max-w-2xl mx-auto mb-12">
@@ -170,12 +166,10 @@ export default function Page() {
                 height={240}
                 className="rounded mb-3 border border-purple-400/40 object-cover"
               />
-              <h3
-                className={`${arcade.className} text-lg text-purple-300 mb-2`}
-              >
+              <h3 className="font-arcade text-lg text-purple-300 mb-2">
                 {ws.title}
               </h3>
-              <p className={`${terminal.className} text-sm text-green-200`}>
+              <p className="font-terminal text-sm text-green-200">
                 {ws.desc}
               </p>
             </motion.div>
@@ -184,13 +178,8 @@ export default function Page() {
       </section>
 
       {/* Projects */}
-      <section
-        id="projects"
-        className="relative z-10 py-24 px-6 max-w-6xl mx-auto text-center"
-      >
-        <h2
-          className={`${orbitron.className} text-3xl sm:text-4xl text-purple-400 mb-8`}
-        >
+      <section id="projects" className="relative z-10 py-24 px-6 max-w-6xl mx-auto text-center">
+        <h2 className="font-orbitron text-3xl sm:text-4xl text-purple-400 mb-8">
           Projects
         </h2>
         <p className="text-green-300 max-w-2xl mx-auto mb-12">
@@ -214,12 +203,10 @@ export default function Page() {
                 height={240}
                 className="rounded mb-3 border border-green-400/40 object-cover"
               />
-              <h3
-                className={`${arcade.className} text-lg text-green-300 mb-2`}
-              >
+              <h3 className="font-arcade text-lg text-green-300 mb-2">
                 {proj.title}
               </h3>
-              <p className={`${terminal.className} text-sm text-green-200`}>
+              <p className="font-terminal text-sm text-green-200">
                 {proj.desc}
               </p>
             </motion.a>
@@ -228,13 +215,8 @@ export default function Page() {
       </section>
 
       {/* Winners */}
-      <section
-        id="winners"
-        className="relative z-10 py-24 px-6 max-w-6xl mx-auto text-center"
-      >
-        <h2
-          className={`${orbitron.className} text-3xl sm:text-4xl text-pink-400 mb-8`}
-        >
+      <section id="winners" className="relative z-10 py-24 px-6 max-w-6xl mx-auto text-center">
+        <h2 className="font-orbitron text-3xl sm:text-4xl text-pink-400 mb-8">
           Winners
         </h2>
         <p className="text-green-300 max-w-2xl mx-auto mb-12">
@@ -258,13 +240,8 @@ export default function Page() {
       </section>
 
       {/* Team */}
-      <section
-        id="team"
-        className="relative z-10 py-24 px-6 max-w-4xl mx-auto text-center"
-      >
-        <h2
-          className={`${orbitron.className} text-3xl sm:text-4xl text-purple-400 mb-8`}
-        >
+      <section id="team" className="relative z-10 py-24 px-6 max-w-4xl mx-auto text-center">
+        <h2 className="font-orbitron text-3xl sm:text-4xl text-purple-400 mb-8">
           Meet the Organizers
         </h2>
         <p className="text-green-300 max-w-2xl mx-auto mb-12">
@@ -275,7 +252,7 @@ export default function Page() {
           href="https://cedarcodes.com"
           target="_blank"
           rel="noopener noreferrer"
-          className={`${arcade.className} inline-flex items-center justify-center bg-green-500 text-black px-8 py-4 rounded-lg hover:bg-green-400 transition shadow-[0_0_12px_rgba(0,255,0,0.6)]`}
+          className="font-arcade inline-flex items-center justify-center bg-green-500 text-black px-8 py-4 rounded-lg hover:bg-green-400 transition shadow-[0_0_12px_rgba(0,255,0,0.6)]"
         >
           Visit Cedar Codes Society →
         </a>
@@ -283,7 +260,7 @@ export default function Page() {
 
       {/* Footer */}
       <footer className="relative z-10 py-10 px-6 text-center border-t border-green-400/20 bg-black/70">
-        <p className={`${terminal.className} text-green-400`}>
+        <p className="font-terminal text-green-400">
           © 2025 Hackpocalypse.Cedar Codes
         </p>
       </footer>
