@@ -249,7 +249,7 @@ export default function Page() {
           you hack inside.
         </p>
         <a
-          href="https://cedarcodes.com"
+          href="https://Cedar-codes.vercel.app"
           target="_blank"
           rel="noopener noreferrer"
           className="font-arcade inline-flex items-center justify-center bg-green-500 text-black px-8 py-4 rounded-lg hover:bg-green-400 transition shadow-[0_0_12px_rgba(0,255,0,0.6)]"
